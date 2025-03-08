@@ -1,0 +1,41 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+void createFile(const string &filename) {
+    ofstream file(filename);
+    if (file.is_open()) {
+        file << "Hello, World!";
+        file.close();
+    } else {
+        cout << "Error creating file!" << endl;
+    }
+}
+
+void processFile(const string &filename) {
+    fstream file(filename, ios::in | ios::out);
+    if (!file) {
+        cout << "Error opening file!" << endl;
+        return;
+    }
+
+    string content;
+    char ch;
+    while (file.get(ch)) {
+        content += char(ch + 1);
+    }
+
+    file.clear();
+    file.seekp(0);
+    file << content;
+
+    file.close();
+}
+
+int main() {
+    string filename = "data.txt";
+    createFile(filename);
+    processFile(filename);
+    cout << "File processed successfully!" << endl;
+    return 0;
+}
